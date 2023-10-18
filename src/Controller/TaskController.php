@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Task;
+use App\Form\TaskType;
 use App\Repository\TaskRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -12,10 +15,12 @@ class TaskController extends AbstractController
 {
 
     protected TaskRepository $taskRepository;
+    protected EntityManagerInterface $manager;
 
-    public function __construct(TaskRepository $taskRepository)
+    public function __construct(TaskRepository $taskRepository, EntityManagerInterface $manager)
     {
         $this->taskRepository = $taskRepository;
+        $this->manager = $manager;
     }
 
     #[Route('/task', name: 'app_task')]
@@ -32,6 +37,35 @@ class TaskController extends AbstractController
 
         return $this->render('task/index.html.twig', [
             'tasks' => $tasks
+        ]);
+    }
+
+    #[Route('/task/create', name: 'app_task_create')]
+    public function createTask(Request $request){
+
+        $task = new Task;
+
+        $task->setCreatedAt(new \DateTime());
+
+        $form = $this->createForm(TaskType::class, $task, []);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            // $task->setName($form['name']->getData())
+            //     ->setDescription($form['description']->getData())
+            //     ->setDueAt($form['dueAt']->getData())
+            //     ->setTag($form['tag']->getData());
+
+            $this->manager->persist($task);
+            $this->manager->flush();
+
+            return $this->redirectToRoute('app_task');
+        }
+
+        return $this->render('task/create.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 }

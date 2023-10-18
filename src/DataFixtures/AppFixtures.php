@@ -45,8 +45,8 @@ class AppFixtures extends Fixture
             // On nourrit l'objet Task
             $task->setName($faker->sentence(6))
                 ->setDescription($faker->paragraph(3))
-                ->setCreatedAt(new \DateTimeImmutable()) // Attention les dates sont créées en fonction du réglage serveur
-                ->setDueAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween('now', '6 months'))) // Même chose ici
+                ->setCreatedAt(new \DateTime()) // Attention les dates sont créées en fonction du réglage serveur
+                ->setDueAt($faker->dateTimeBetween('now', '6 months')) // Même chose ici
                 ->setTag($faker->randomElement($allTags));
 
             // On fait persister les données

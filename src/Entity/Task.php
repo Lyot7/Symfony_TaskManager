@@ -21,10 +21,10 @@ class Task
     private ?string $description = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?\DateTime $createdAt = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $dueAt = null;
+    private ?\DateTime $dueAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'tasks')]
     #[ORM\JoinColumn(nullable: false)]
@@ -59,24 +59,24 @@ class Task
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(\DateTime $createdAt): static
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getDueAt(): ?\DateTimeImmutable
+    public function getDueAt(): ?\DateTime
     {
         return $this->dueAt;
     }
 
-    public function setDueAt(\DateTimeImmutable $dueAt): static
+    public function setDueAt(\DateTime $dueAt): static
     {
         $this->dueAt = $dueAt;
 
