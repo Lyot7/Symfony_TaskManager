@@ -4,10 +4,15 @@
 	Hello TaskController!
 {% endblock %}
 
+{% block stylesheets %}
+	<link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+{% endblock %}
+
 {% block body %}
 	<div
 		class="container">
 		<table
+			id="taskTable"
 			class="divide-y divide-gray-300 m-auto">
 			<thead>
 				<tr>
@@ -22,6 +27,9 @@
 					<th
 						class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
 						Date Prévue
+					</th>
+					<th>
+						Catégorie
 					</th>
 				</tr>
 			</thead>
@@ -40,9 +48,20 @@
 						<td>
 							{{ task.dueAt | date('d/m/Y') }}
 						</td>
+						<td>
+							{{ task.tag.name }}
+						</td>
 					</tr>
 				{% endfor %}
 			</tbody>
 		</table>
 	</div>
+{% endblock %}
+
+{% block javascripts %}
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+	<script>
+		let table = new DataTable('#taskTable');
+	</script>
 {% endblock %}

@@ -26,6 +26,10 @@ class Task
     #[ORM\Column]
     private ?\DateTimeImmutable $dueAt = null;
 
+    #[ORM\ManyToOne(inversedBy: 'tasks')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Tag $tag = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +79,18 @@ class Task
     public function setDueAt(\DateTimeImmutable $dueAt): static
     {
         $this->dueAt = $dueAt;
+
+        return $this;
+    }
+
+    public function getTag(): ?Tag
+    {
+        return $this->tag;
+    }
+
+    public function setTag(?Tag $tag): static
+    {
+        $this->tag = $tag;
 
         return $this;
     }
